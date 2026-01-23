@@ -1,4 +1,4 @@
-package JPA;
+package com.Examen.CajeroService.JPA;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package JPA;
+package com.Examen.CajeroService.JPA;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
@@ -38,24 +38,28 @@ public class UsuarioJPA {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "username")
+    private String userName;
+
     @ManyToOne
     @JoinColumn(name = "idrol")
     public RolJPA rolJPA;
 
-    @OneToMany(mappedBy = "UsuarioJPA", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuarioJPA", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     public List<CuentasJPA> cuentasJPA = new ArrayList<>();
 
     public UsuarioJPA() {
     }
 
-    public UsuarioJPA(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String email, String password, RolJPA rolJPA) {
+    public UsuarioJPA(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String email, String password, String userName, RolJPA rolJPA) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.email = email;
         this.password = password;
+        this.userName = userName;
         this.rolJPA = rolJPA;
     }
 
@@ -105,6 +109,14 @@ public class UsuarioJPA {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public RolJPA getRolJPA() {
