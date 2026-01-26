@@ -20,7 +20,7 @@ public class UsuarioJPA {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario", nullable = false)
+    @Column(name = "idusuario", nullable = false)
     private int idUsuario;
 
     @Column(name = "nombre")
