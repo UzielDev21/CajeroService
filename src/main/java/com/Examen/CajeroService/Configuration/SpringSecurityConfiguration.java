@@ -24,20 +24,19 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration {
-    
+
     private final UserDetailsJPAService userDetailsJPAService;
     private final JwtService jwtService;
     private final TokenBlackListService tokenBlackListService;
-    
-    
+
     public SpringSecurityConfiguration(
             UserDetailsJPAService userDetailsJPAService,
             JwtService jwtService,
-            TokenBlackListService tokenBlackListService){
-        
-     this.userDetailsJPAService = userDetailsJPAService;
-     this.jwtService = jwtService;
-     this.tokenBlackListService = tokenBlackListService;
+            TokenBlackListService tokenBlackListService) {
+
+        this.userDetailsJPAService = userDetailsJPAService;
+        this.jwtService = jwtService;
+        this.tokenBlackListService = tokenBlackListService;
     }
 
     @Bean
@@ -48,39 +47,44 @@ public class SpringSecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/login").permitAll()
                 .requestMatchers("/api/logout").authenticated()
+                .requestMatchers("/cajeros/**")
+                .hasAnyRole("Administrador", "Cliente")
+                .requestMatchers("/api/cajeros/**")
+                .hasAnyRole("Administrador", "Cliente")
+                .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsJPAService)
                 .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-    
+
     @Bean
-    public PasswordEncoder PasswordEncoder(){
+    public PasswordEncoder PasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
+
     @Bean
-    public AuthenticationManager authenticationManager(){
+    public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsJPAService);
         provider.setPasswordEncoder(PasswordEncoder());
         return new ProviderManager(provider);
     }
-    
+
     @Bean
-    public JwtAuthFilter jwtAuthFilter(){
+    public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtService, userDetailsJPAService, tokenBlackListService);
     }
-    
+
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        
+
         corsConfig.setAllowedOrigins(List.of("http://localhost:8081"));
         corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         corsConfig.setAllowedHeaders(List.of("*"));
         corsConfig.setExposedHeaders(List.of("Authorization"));
         corsConfig.setAllowCredentials(true);
-        
+
         UrlBasedCorsConfigurationSource corsSource = new UrlBasedCorsConfigurationSource();
         corsSource.registerCorsConfiguration("/**", corsConfig);
         return corsSource;
