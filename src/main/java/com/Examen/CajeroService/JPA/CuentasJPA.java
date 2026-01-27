@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "CUENTAS")
@@ -28,7 +29,7 @@ public class CuentasJPA {
     public TipoCuentaJPA tipoCuentaJPA;
 
     @Column(name = "saldo")
-    private float saldo;
+    private BigDecimal saldo;
 
     @Column(name = "estado")
     private int estado;
@@ -42,7 +43,7 @@ public class CuentasJPA {
     public CuentasJPA() {
     }
 
-    public CuentasJPA(int idCuenta, UsuarioJPA usuarioJPA, TipoCuentaJPA tipoCuentaJPA, float saldo, int estado, int noCuenta, int nip) {
+    public CuentasJPA(int idCuenta, UsuarioJPA usuarioJPA, TipoCuentaJPA tipoCuentaJPA, BigDecimal saldo, int estado, int noCuenta, int nip) {
         this.idCuenta = idCuenta;
         this.usuarioJPA = usuarioJPA;
         this.tipoCuentaJPA = tipoCuentaJPA;
@@ -76,11 +77,11 @@ public class CuentasJPA {
         this.tipoCuentaJPA = tipoCuentaJPA;
     }
 
-    public float getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(float saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 

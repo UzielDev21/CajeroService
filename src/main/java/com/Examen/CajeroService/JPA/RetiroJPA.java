@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "RETIRO")
@@ -27,7 +28,7 @@ public class RetiroJPA {
     public CajeroJPA cajeroJPA;
 
     @Column(name = "monto")
-    private float monto;
+    private BigDecimal monto;
 
     @Column(name = "estatus")
     private String estatus;
@@ -35,7 +36,7 @@ public class RetiroJPA {
     public RetiroJPA() {
     }
 
-    public RetiroJPA(int idRetiro, CuentasJPA cuentasJPA, CajeroJPA cajeroJPA, float monto, String status) {
+    public RetiroJPA(int idRetiro, CuentasJPA cuentasJPA, CajeroJPA cajeroJPA, BigDecimal monto, String status) {
         this.idRetiro = idRetiro;
         this.cuentasJPA = cuentasJPA;
         this.cajeroJPA = cajeroJPA;
@@ -67,11 +68,11 @@ public class RetiroJPA {
         this.cajeroJPA = cajeroJPA;
     }
 
-    public float getMonto() {
+    public BigDecimal getMonto() {
         return monto;
     }
 
-    public void setMonto(float monto) {
+    public void setMonto(BigDecimal monto) {
         this.monto = monto;
     }
 
