@@ -1,5 +1,7 @@
 package com.Examen.CajeroService.JPA;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,6 +24,7 @@ public class CuentasJPA {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idusuario")
+    @JsonIgnoreProperties({"cuentasJPA"})
     public UsuarioJPA usuarioJPA;
 
     @ManyToOne
@@ -59,22 +62,6 @@ public class CuentasJPA {
 
     public void setIdCuenta(int idCuenta) {
         this.idCuenta = idCuenta;
-    }
-
-    public UsuarioJPA getUsuarioJPA() {
-        return usuarioJPA;
-    }
-
-    public void setUsuarioJPA(UsuarioJPA usuarioJPA) {
-        this.usuarioJPA = usuarioJPA;
-    }
-
-    public TipoCuentaJPA getTipoCuentaJPA() {
-        return tipoCuentaJPA;
-    }
-
-    public void setTipoCuentaJPA(TipoCuentaJPA tipoCuentaJPA) {
-        this.tipoCuentaJPA = tipoCuentaJPA;
     }
 
     public BigDecimal getSaldo() {

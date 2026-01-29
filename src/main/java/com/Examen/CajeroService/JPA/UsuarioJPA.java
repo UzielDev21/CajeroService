@@ -1,5 +1,7 @@
 package com.Examen.CajeroService.JPA;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,6 +16,7 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "USUARIO")
 public class UsuarioJPA {
@@ -47,7 +50,7 @@ public class UsuarioJPA {
 
     @OneToMany(mappedBy = "usuarioJPA", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    public List<CuentasJPA> cuentasJPA = new ArrayList<>();
+    private List<CuentasJPA> cuentasJPA = new ArrayList<>();
 
     public UsuarioJPA() {
     }
@@ -127,10 +130,12 @@ public class UsuarioJPA {
         this.rolJPA = rolJPA;
     }
 
-    public List<CuentasJPA> getCuentasJPA() {
+    @JsonIgnore
+    private List<CuentasJPA> getCuentasJPA() {
         return cuentasJPA;
     }
 
+    @JsonIgnore
     public void setCuentasJPA(List<CuentasJPA> cuentasJPA) {
         this.cuentasJPA = cuentasJPA;
     }
