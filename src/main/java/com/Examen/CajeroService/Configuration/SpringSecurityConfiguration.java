@@ -1,9 +1,9 @@
 package com.Examen.CajeroService.Configuration;
 
 import com.Examen.CajeroService.Filter.JwtAuthFilter;
-import com.Examen.CajeroService.UserDetailsJPAService.JwtService;
-import com.Examen.CajeroService.UserDetailsJPAService.TokenBlackListService;
-import com.Examen.CajeroService.UserDetailsJPAService.UserDetailsJPAService;
+import com.Examen.CajeroService.Service.JwtService;
+import com.Examen.CajeroService.Service.TokenBlackListService;
+import com.Examen.CajeroService.Service.UserDetailsJPAService;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

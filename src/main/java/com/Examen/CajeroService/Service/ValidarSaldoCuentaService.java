@@ -1,7 +1,7 @@
-package com.Examen.CajeroService.UserDetailsJPAService;
+package com.Examen.CajeroService.Service;
 
-import com.Examen.CajeroService.DTO.ValidarDenominacionRequest;
-import com.Examen.CajeroService.DTO.ValidarDenominacionResponse;
+import com.Examen.CajeroService.DTO.ValidarCajeroResponse;
+import com.Examen.CajeroService.DTO.ValidarSaldoCuentaRequest;
 import com.Examen.CajeroService.JPA.Result;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
@@ -11,45 +11,43 @@ import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ValidarDenominacionService {
+public class ValidarSaldoCuentaService {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Result ejecutarValidacionDenominacion(ValidarDenominacionRequest validarDenominacionRequest) {
+    public Result ejecutarValidacionSaldoCuenta(ValidarSaldoCuentaRequest validarSaldoCuentaRequest) {
 
         Result result = new Result();
 
         try {
 
-            StoredProcedureQuery spQuery = entityManager.createStoredProcedureQuery("ValidarDenominacion");
+            StoredProcedureQuery spQuery = entityManager.createStoredProcedureQuery("ValidarSaldoCuenta");
 
-            spQuery.registerStoredProcedureParameter("pIdCajero", Integer.class, ParameterMode.IN);
+            spQuery.registerStoredProcedureParameter("pIdCuenta", Integer.class, ParameterMode.IN);
             spQuery.registerStoredProcedureParameter("pMonto", BigDecimal.class, ParameterMode.IN);
 
             spQuery.registerStoredProcedureParameter("oCodigo", Integer.class, ParameterMode.OUT);
             spQuery.registerStoredProcedureParameter("oMensaje", String.class, ParameterMode.OUT);
-            spQuery.registerStoredProcedureParameter("oDesglose", String.class, ParameterMode.OUT);
 
-            spQuery.setParameter("pIdCajero", validarDenominacionRequest.getIdCajero());
-            spQuery.setParameter("pMonto", validarDenominacionRequest.getMonto());
-            
+            spQuery.setParameter("pIdCuenta", validarSaldoCuentaRequest.getIdCuenta());
+            spQuery.setParameter("pMonto", validarSaldoCuentaRequest.getMonto());
+
             spQuery.execute();
 
             Integer codigo = (Integer) spQuery.getOutputParameterValue("oCodigo");
             String mensaje = (String) spQuery.getOutputParameterValue("oMensaje");
-            String desglose = (String) spQuery.getOutputParameterValue("oDesglose");
 
-            ValidarDenominacionResponse validarDenominacionResponse = new ValidarDenominacionResponse(codigo, mensaje, desglose);
+            ValidarCajeroResponse validarCajeroResponse = new ValidarCajeroResponse(codigo, mensaje);
 
             if (Integer.valueOf(0).equals(codigo)) {
 
                 result.correct = true;
-                result.object = validarDenominacionResponse;
+                result.object = validarCajeroResponse;
 
             } else {
                 result.correct = false;
-                result.object = validarDenominacionResponse;
+                result.object = validarCajeroResponse;
                 result.errorMessage = mensaje;
             }
 

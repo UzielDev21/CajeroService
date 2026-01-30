@@ -1,4 +1,4 @@
-package com.Examen.CajeroService.UserDetailsJPAService;
+package com.Examen.CajeroService.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

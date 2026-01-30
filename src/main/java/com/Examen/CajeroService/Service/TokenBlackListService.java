@@ -1,4 +1,4 @@
-package com.Examen.CajeroService.UserDetailsJPAService;
+package com.Examen.CajeroService.Service;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

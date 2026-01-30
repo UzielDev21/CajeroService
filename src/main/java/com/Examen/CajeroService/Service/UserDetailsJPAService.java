@@ -1,4 +1,4 @@
-package com.Examen.CajeroService.UserDetailsJPAService;
+package com.Examen.CajeroService.Service;
 
 import com.Examen.CajeroService.DAO.IUsuarioRepositoryDAO;
 import com.Examen.CajeroService.JPA.UsuarioJPA;

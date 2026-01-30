@@ -1,4 +1,4 @@
-package com.Examen.CajeroService.UserDetailsJPAService;
+package com.Examen.CajeroService.Service;
 
 import com.Examen.CajeroService.DTO.AccesoCuentaRequest;
 import com.Examen.CajeroService.DTO.AccesoCuentaResponse;

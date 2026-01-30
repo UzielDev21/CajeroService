@@ -1,7 +1,7 @@
 package com.Examen.CajeroService.Filter;
 
-import com.Examen.CajeroService.UserDetailsJPAService.JwtService;
-import com.Examen.CajeroService.UserDetailsJPAService.TokenBlackListService;
+import com.Examen.CajeroService.Service.JwtService;
+import com.Examen.CajeroService.Service.TokenBlackListService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

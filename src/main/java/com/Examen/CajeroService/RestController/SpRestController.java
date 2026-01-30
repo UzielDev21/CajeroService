@@ -7,14 +7,17 @@ import com.Examen.CajeroService.DTO.ValidarCajeroRequest;
 import com.Examen.CajeroService.DTO.ValidarDenominacionRequest;
 import com.Examen.CajeroService.DTO.ValidarSaldoCuentaRequest;
 import com.Examen.CajeroService.JPA.Result;
-import com.Examen.CajeroService.UserDetailsJPAService.AccesoCuentaService;
-import com.Examen.CajeroService.UserDetailsJPAService.EjecutarRetiroService;
-import com.Examen.CajeroService.UserDetailsJPAService.ValidarCajeroService;
-import com.Examen.CajeroService.UserDetailsJPAService.ValidarDenominacionService;
-import com.Examen.CajeroService.UserDetailsJPAService.ValidarSaldoCuentaService;
+import com.Examen.CajeroService.Service.AccesoCuentaService;
+import com.Examen.CajeroService.Service.ConsultarSaldoCajeroService;
+import com.Examen.CajeroService.Service.ConsultarSaldoUsuarioService;
+import com.Examen.CajeroService.Service.EjecutarRetiroService;
+import com.Examen.CajeroService.Service.ValidarCajeroService;
+import com.Examen.CajeroService.Service.ValidarDenominacionService;
+import com.Examen.CajeroService.Service.ValidarSaldoCuentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +42,12 @@ public class SpRestController {
 
     @Autowired
     private EjecutarRetiroService ejecutarRetiroService;
+
+    @Autowired
+    private ConsultarSaldoUsuarioService consultarSaldoUsuarioService;
+
+    @Autowired
+    private ConsultarSaldoCajeroService consultarSaldoCajeroService;
 
     @PostMapping("/acceso-cuenta")
     public ResponseEntity AccesoCuenta(@RequestBody AccesoCuentaRequest accesoCuentaRequest) {
@@ -145,6 +154,68 @@ public class SpRestController {
         try {
 
             result = ejecutarRetiroService.ejecutarRetiroService(ejecutarRetiroRequest);
+
+            if (result.correct) {
+                result.status = 200;
+            } else {
+                result.status = 400;
+            }
+
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            result.status = 500;
+        }
+        return ResponseEntity.status(result.status).body(result);
+    }
+
+    @GetMapping("/consultar-saldo-usuario/{idCuenta}")
+    public ResponseEntity consultarSaldoUsuario(@PathVariable("idCuenta") int idCuenta) {
+
+        Result result = new Result();
+
+        try {
+
+            if (idCuenta <= 0) {
+                result.correct = false;
+                result.errorMessage = "Id de cuenta invalido";
+                result.status = 400;
+                return ResponseEntity.status(result.status).body(result);
+            }
+
+            result = consultarSaldoCajeroService.ejecutarConsultaSaldoCajero(idCuenta);
+
+            if (result.correct) {
+                result.status = 200;
+            } else {
+                result.status = 400;
+            }
+
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            result.status = 500;
+        }
+        return ResponseEntity.status(result.status).body(result);
+    }
+
+    @GetMapping("/consultar-saldo-cajero/{idCajero}")
+    public ResponseEntity ConsultaSaldoCajero(@PathVariable("idCajero") int idCajero) {
+
+        Result result = new Result();
+
+        try {
+
+            if (idCajero <= 0) {
+                result.correct = false;
+                result.errorMessage = "Id de cajero invalido";
+                result.status = 400;
+                return ResponseEntity.status(result.status).body(result);
+            }
+
+            result = consultarSaldoCajeroService.ejecutarConsultaSaldoCajero(idCajero);
 
             if (result.correct) {
                 result.status = 200;
