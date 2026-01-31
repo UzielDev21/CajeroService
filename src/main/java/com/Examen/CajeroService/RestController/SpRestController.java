@@ -184,7 +184,7 @@ public class SpRestController {
                 return ResponseEntity.status(result.status).body(result);
             }
 
-            result = consultarSaldoCajeroService.ejecutarConsultaSaldoCajero(idCuenta);
+            result = consultarSaldoUsuarioService.ejecutarConsultaSaldoUsuario(idCuenta);
 
             if (result.correct) {
                 result.status = 200;
