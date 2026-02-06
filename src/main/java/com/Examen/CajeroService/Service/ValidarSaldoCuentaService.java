@@ -2,6 +2,7 @@ package com.Examen.CajeroService.Service;
 
 import com.Examen.CajeroService.DTO.ValidarCajeroResponse;
 import com.Examen.CajeroService.DTO.ValidarSaldoCuentaRequest;
+import com.Examen.CajeroService.DTO.ValidarSaldoCuentaResponse;
 import com.Examen.CajeroService.JPA.Result;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
@@ -38,16 +39,16 @@ public class ValidarSaldoCuentaService {
             Integer codigo = (Integer) spQuery.getOutputParameterValue("oCodigo");
             String mensaje = (String) spQuery.getOutputParameterValue("oMensaje");
 
-            ValidarCajeroResponse validarCajeroResponse = new ValidarCajeroResponse(codigo, mensaje);
-
+            ValidarSaldoCuentaResponse validarSaldoCuentaResponse = new ValidarSaldoCuentaResponse(codigo, mensaje);
+            
             if (Integer.valueOf(0).equals(codigo)) {
 
                 result.correct = true;
-                result.object = validarCajeroResponse;
+                result.object = validarSaldoCuentaResponse;
 
             } else {
                 result.correct = false;
-                result.object = validarCajeroResponse;
+                result.object = validarSaldoCuentaResponse;
                 result.errorMessage = mensaje;
             }
 
