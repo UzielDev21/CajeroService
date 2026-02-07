@@ -3,6 +3,7 @@ package com.Examen.CajeroService.RestController;
 import com.Examen.CajeroService.DTO.AccesoCuentaRequest;
 import com.Examen.CajeroService.DTO.AccesoCuentaResponse;
 import com.Examen.CajeroService.DTO.EjecutarRetiroRequest;
+import com.Examen.CajeroService.DTO.RecargarCajeroRequest;
 import com.Examen.CajeroService.DTO.ValidarCajeroRequest;
 import com.Examen.CajeroService.DTO.ValidarDenominacionRequest;
 import com.Examen.CajeroService.DTO.ValidarSaldoCuentaRequest;
@@ -11,6 +12,7 @@ import com.Examen.CajeroService.Service.AccesoCuentaService;
 import com.Examen.CajeroService.Service.ConsultarSaldoCajeroService;
 import com.Examen.CajeroService.Service.ConsultarSaldoUsuarioService;
 import com.Examen.CajeroService.Service.EjecutarRetiroService;
+import com.Examen.CajeroService.Service.RecargaCajeroService;
 import com.Examen.CajeroService.Service.ValidarCajeroService;
 import com.Examen.CajeroService.Service.ValidarDenominacionService;
 import com.Examen.CajeroService.Service.ValidarSaldoCuentaService;
@@ -48,6 +50,9 @@ public class SpRestController {
 
     @Autowired
     private ConsultarSaldoCajeroService consultarSaldoCajeroService;
+
+    @Autowired
+    private RecargaCajeroService recargaCajeroService;
 
     @PostMapping("/acceso-cuenta")
     public ResponseEntity AccesoCuenta(@RequestBody AccesoCuentaRequest accesoCuentaRequest) {
@@ -106,6 +111,30 @@ public class SpRestController {
         try {
 
             result = validarDenominacionService.ejecutarValidacionDenominacion(validarDenominacionRequest);
+
+            if (result.correct) {
+                result.status = 200;
+            } else {
+                result.status = 400;
+            }
+
+        } catch (Exception ex) {
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            result.status = 500;
+        }
+        return ResponseEntity.status(result.status).body(result);
+    }
+
+    @PostMapping("/recargar-cajero")
+    public ResponseEntity EjecutarRecargaCajero(@RequestBody RecargarCajeroRequest recargarCajeroRequest) {
+
+        Result result = new Result();
+
+        try {
+
+            result = recargaCajeroService.ejecutarRecarga(recargarCajeroRequest);
 
             if (result.correct) {
                 result.status = 200;
